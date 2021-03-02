@@ -6,9 +6,8 @@ import time
 from os import system
 import os.path
 
-def ciclo():
 
-    global cont
+def ciclo():
 
     df = pd.DataFrame([
         USD_COP(),
@@ -16,19 +15,17 @@ def ciclo():
         BTC_to('cop')
         ])
 
-    df['value']=df['value'].apply(lambda x: locale.format_string('%.2f', x, grouping=True))
+    df['Value']=df['Value'].apply(lambda x: locale.format_string('%.2f', x, grouping=True))
+    pd.options.display.max_rows=df.shape[1]
 
     system('cls') 
-
-    #print(str(cont))
-    cont=cont+1
 
     if(not os.path.isfile('chromedriver.exe')):
         print('Error. Descargue chromedriver.exe de http://chromedriver.chromium.org/downloads , peguelo en la carpeta del programa y reinicie el programa.')
 
-    print('')
+        print('')
 
-    print(df[['monedaBase','monedaCotizada','value','status']])
+    print(df)
     
     time.sleep(50)
 
@@ -38,8 +35,6 @@ def ciclo():
 if __name__=='__main__':
 
     locale.setlocale(locale.LC_ALL, 'es_co')
-
-    cont=0
 
     print('Cargando...')
     ciclo()
