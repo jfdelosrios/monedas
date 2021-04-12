@@ -4,30 +4,31 @@ import locale
 import pandas as pd
 import time
 from os import system
-import os.path
 
 
 def ciclo():
 
-    df = pd.DataFrame([
+    pares=[
         USD_COP(),
         BTC_to('usd'),
         BTC_to('cop')
-        ])
+        ]
+   
+    df = pd.DataFrame([i['value'] for i in pares])
+
+    df['Status']=[i['Status'][0] for i in pares]
 
     df['Value']=df['Value'].apply(lambda x: locale.format_string('%.2f', x, grouping=True))
     pd.options.display.max_rows=df.shape[1]
 
     system('cls') 
 
-    if(not os.path.isfile('chromedriver.exe')):
-        print('Error. Descargue chromedriver.exe de http://chromedriver.chromium.org/downloads , peguelo en la carpeta del programa y reinicie el programa.')
-
-        print('')
+    print(*(i['Status'][1] for i in pares if(i['Status'][1] != '')), sep='\n')
+    print('')
 
     print(df)
     
-    time.sleep(50)
+    time.sleep(60)
 
     ciclo()
 
